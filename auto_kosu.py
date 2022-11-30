@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 import time
 from datetime import datetime, timedelta
 
@@ -23,8 +24,10 @@ else:
     str_month = datetime.strftime(datetime.today() - timedelta(days=3), "%m")
 
 print(f"running auto kosu... {str_month}月")
+options = Options()
+# options.add_argument('--headless')
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 driver.get("https://id.jobcan.jp/users/sign_in")
 driver.find_element(By.XPATH, '//*[@id="new_user_google"]/a').click()
@@ -37,17 +40,17 @@ element = driver.find_element(By.XPATH, '//*[@id="password"]/div[1]/div/div[1]/i
 element.send_keys(PASS)
 element.send_keys(Keys.ENTER)
 
-time.sleep(1)
+time.sleep(2)
 ele = driver.find_element(
-    By.XPATH, "/html/body/div[1]/header/nav/div/div[2]/ul/li[3]/a"
+    By.XPATH, '//*[@id="jbc-app-links"]/ul/li[3]/a'
 )
 ele.click()
 
 time.sleep(1)
 driver.switch_to.window(driver.window_handles[1])
-driver.close()
-driver.switch_to.window(driver.window_handles[0])
-time.sleep(0.5)
+# driver.close()
+# driver.switch_to.window(driver.window_handles[0])
+time.sleep(1)
 driver.get("https://ssl.jobcan.jp/employee/man-hour-manage")
 time.sleep(1)
 selector = driver.find_element(
